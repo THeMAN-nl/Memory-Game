@@ -1,16 +1,27 @@
 html{
     background-image: radial-gradient(#e8e8e8,#bbbfca,#495464);
-    
     max-height: 100vh;
-    
+    font-size: 16px;
 }
 
+@media screen and (max-width: 700px) {
+    html{
+        font-size: 10px;
+    }
 
+    .card-container{
+        display: grid;
+        grid-template-columns: repeat(2,auto);
+        grid-gap:0.625rem;
+        justify-content: center;
+        align-items: center;
+    }
+}
 
 i{
     opacity: 0;
     color: white;
-    font-size: 4em;
+    font-size: 4rem;
     transition: opacity 100ms ease-in-out;
     
 }
@@ -26,7 +37,7 @@ i.reveal {
     justify-content: center;
     align-items: center;
     font-family: 'Belleza', sans-serif;
-    font-size: 4em;
+    font-size: 4rem;
 }
 
 .game-info-container{
@@ -38,21 +49,23 @@ i.reveal {
 }
 
 .game-info{
-    margin: 50px;
+    margin: 3.125rem;
+}
+@media screen and (min-width: 701px) {
+    .card-container{
+        display: grid;
+        grid-template-columns: repeat(4,auto);
+        grid-gap:0.625rem;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
-.card-container{
-    display: grid;
-    grid-template-columns: repeat(4,auto);
-    grid-gap:10px;
-    justify-content: center;
-    align-items: center;
-}
 
 .card{
     cursor: pointer;
-    height: 175px;
-    width: 125px;
+    height: 10.9375rem;
+    width: 7.8125rem;
     background-color:black ;
     display: flex;
     justify-content: center;
@@ -95,9 +108,13 @@ i.reveal {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 5em;
+    font-size: 5rem;
     color: aliceblue;
     font-family: 'Belleza', sans-serif;
     
 }
 
+.disable-click{
+    pointer-events: none;
+
+}
