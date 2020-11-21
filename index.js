@@ -2,38 +2,19 @@ let memoryObject = {
   matchCount: 0,
   time: 1*60,
   matchedCards:[],
+  cardsArray:[],
+  totalCards:99,
   count: 0,
   iconClass:"",
   firstClick: true,
   previousCard:"empty",
+  gameTitle: document.getElementById("overlay-victory"),
 
-  // Rules for winning
-  setVictory: function(){
-      if (memoryObject.matchCount > 3){
-        document.getElementById("overlay-victory").style.display = "block";
-        document.getElementById('page-title').innerText = "VICTORY";
-  }
-
-  },
-  // set timer
-  updateCountdown: function(){
-    const minutes = Math.floor( time / 60);
-    const seconds = time % 60;
-    if (minutes < 0 && seconds < 0){
-        test.style.display = "none";
-        document.getElementById("overlay-lost").style.display = "block";
-        document.getElementById('page-title').innerHTML = "GAME OVER";
-        return;
-    }else{
-        document.getElementById('timer').innerHTML = minutes+ '' + ':' + '' + seconds;
-
-        time--
-    }
-  },
+  //create cards and display them
   addCards: function(amountOfCards)
   {
    let cardContainer = document.getElementById("card-container");
-   let cardsArray=[];
+   totalCards =  amountOfCards;
    let lastNumber;
    console.log(cardContainer);
     for (i= 0; i<amountOfCards; i++)
@@ -61,7 +42,7 @@ let memoryObject = {
 
 
       //push card to Array
-      cardsArray.push(card);
+      memoryObject.cardsArray.push(card);
 
       // add element to html DOM
       cardContainer.appendChild(card);
@@ -70,13 +51,128 @@ let memoryObject = {
     }
 
     // get all now available cards
-    for(i=0; i<cardsArray.length; i++){
+    for(i=0; i<memoryObject.cardsArray.length; i++){
       // add card class to all cards
-      cardsArray[i].classList.add("card");
+      memoryObject.cardsArray[i].classList.add("card");
+
     }
 
+  },
+
+
+  //shuffle cards
+  shuffleCards:function()
+  {
+    for(let i = memoryObject.cardsArray.length - 1; i>0; i--)
+    {
+        let randomIndex = Math.floor(Math.random()*(i+1));
+        memoryObject.cardsArray[randomIndex].style.order= i;
+        memoryObject.cardsArray[i].style.order = randomIndex;
+    }
+  },
+
+
+  // rules for winning
+  setVictory: function(matchCount)
+  {
+    console.log(memoryObject.totalCards);
+    if (memoryObject.matchCount == memoryObject.totalCards/2)
+    {
+        document.getElementById("overlay-victory").style.display = "block";
+        document.getElementById('page-title').innerText = "VICTORY";
+    }
+  },
+
+  // set timer
+  updateCountdown: function()
+  {
+      const minutes = Math.floor( memoryObject.time / 60);
+      const seconds = memoryObject.time % 60;
+      if (minutes < 0 && seconds < 0)
+      {
+          memoryObject.gameTitle.style.display = "none";
+          document.getElementById("overlay-lost").style.display = "block";
+          document.getElementById('page-title').innerHTML = "GAME OVER";
+          return;
+      }else
+      {
+          document.getElementById('timer').innerHTML = minutes+ '' + ':' + '' + seconds;
+
+          memoryObject.time--
+      }
   }
 }
 
-memoryObject.addCards(12);
-// setInterval(updateCountdown,1000)
+
+memoryObject.setVictory();
+memoryObject.addCards(6);
+memoryObject.shuffleCards();
+setInterval(memoryObject.updateCountdown,1000);
+
+memoryObject.cardsArray.forEach(card => card.addEventListener('click',function counter(){
+    memoryObject.count++;
+    document.getElementById('flips').innerHTML = memoryObject.count;
+
+})
+);
+
+//1.2 reveal icon onclick en check for matching icons
+memoryObject.cardsArray.forEach(card => card.addEventListener('click', function(){
+    // console.log(card.firstElementChild.classList.value)
+   if (memoryObject.firstClick)
+   {
+        memoryObject.firstClick = false;
+        memoryObject.previousCard = card;
+        memoryObject.iconClass = card.firstElementChild.innerText;
+        // console.log(iconClass)
+        card.firstElementChild.classList.add('reveal');
+        card.classList.add('disable-click');
+   }
+   else
+   {
+
+        if (memoryObject.iconClass == card.firstElementChild.innerText)
+        {
+            console.log('match')
+            memoryObject.matchCount++;
+            memoryObject.setVictory(memoryObject.matchCount)
+            memoryObject.matchedCards.push(card,memoryObject.previousCard)
+            console.log(memoryObject.matchedCards)
+            card.firstElementChild.classList.add('reveal');
+            setTimeout(function(){
+                card.classList.add('disable-click');
+                memoryObject.previousCard.classList.add('disable-click');
+
+            },2000)
+
+           // console.log(card.classList)
+            memoryObject.iconClass ="empty";
+            memoryObject.firstClick=true;
+
+        }
+        else
+        {
+            card.firstElementChild.classList.add('reveal');
+            setTimeout(function(){
+                card.firstElementChild.classList.remove('reveal')
+                memoryObject.previousCard.firstElementChild.classList.remove('reveal')},1000)
+                // console.log(iconClass, card.firstElementChild.id, previousCard)
+                memoryObject.firstClick=true;
+
+                temporalyDisableClicks()
+
+
+        }
+
+   }
+})
+);
+
+// disable card clicking to prevent spamming
+function temporalyDisableClicks(){
+    memoryObject.cardsArray.forEach(card => card.classList.add("disable-click"))
+    setTimeout(function(){
+        memoryObject.cardsArray.forEach(card => card.classList.remove("disable-click"))
+        memoryObject.matchedCards.forEach(card => card.classList.add("disable-click"))
+},2100)
+}

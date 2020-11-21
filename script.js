@@ -24,25 +24,25 @@ function setVictory(matchCount,){
         document.getElementById("overlay-victory").style.display = "block";
         document.getElementById('page-title').innerText = "VICTORY";
     }
-    
+
 }
 
 
-let test = document.getElementById("overlay-victory");
+let gameTitle = document.getElementById("overlay-victory");
 
 // set timer
 function updateCountdown() {
-    
+
     const minutes = Math.floor( time / 60);
     const seconds = time % 60;
     if (minutes < 0 && seconds < 0){
-        test.style.display = "none";
+        gameTitle.style.display = "none";
         document.getElementById("overlay-lost").style.display = "block";
         document.getElementById('page-title').innerHTML = "GAME OVER";
         return;
     }else{
         document.getElementById('timer').innerHTML = minutes+ '' + ':' + '' + seconds;
-        
+
         time--
     }
 }
@@ -55,7 +55,7 @@ const card= document.getElementsByClassName('card');
 const cardsArray = Array.from(card);
 
 
-// shuffle cards 
+// shuffle cards
 function shuffleCards() {
     for(let i = cardsArray.length - 1; i>0; i--){
         let randomIndex = Math.floor(Math.random()*(i+1));
@@ -65,16 +65,16 @@ function shuffleCards() {
 }
 
 
-// 1.0 What needs to happen when a memory card is clicked 
+// 1.0 What needs to happen when a memory card is clicked
 //contain matched cards
 let matchedCards = [] ;
 //  Create flips counter
 let count = 0;
 //1.1 count flips
 cardsArray.forEach(card => card.addEventListener('click',function counter(){
-    count++; 
+    count++;
     document.getElementById('flips').innerHTML = count;
-    
+
 })
 );
 
@@ -93,9 +93,9 @@ cardsArray.forEach(card => card.addEventListener('click', function(){
         card.firstElementChild.classList.add('reveal');
         card.classList.add('disable-click');
    }
-   else 
+   else
    {
-      
+
         if (iconClass == card.firstElementChild.id)
         {
             console.log('match')
@@ -107,15 +107,15 @@ cardsArray.forEach(card => card.addEventListener('click', function(){
             setTimeout(function(){
                 card.classList.add('disable-click');
                 previousCard.classList.add('disable-click');
-                
+
             },2000)
-            
+
            // console.log(card.classList)
             iconClass ="empty";
             firstClick=true;
-            
-        } 
-        else 
+
+        }
+        else
         {
             card.firstElementChild.classList.add('reveal');
             setTimeout(function(){
@@ -123,12 +123,12 @@ cardsArray.forEach(card => card.addEventListener('click', function(){
                 previousCard.firstElementChild.classList.remove('reveal')},1000)
                 // console.log(iconClass, card.firstElementChild.id, previousCard)
                 firstClick=true;
-                
+
                 temporalyDisableClicks()
-                
-        
+
+
         }
-        
+
    }
 })
 );
@@ -144,5 +144,3 @@ function temporalyDisableClicks(){
 
 //shuffle cards oproepen
 shuffleCards()
-
-
