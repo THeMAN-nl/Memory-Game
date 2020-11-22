@@ -4,14 +4,14 @@ html{
     font-size: 16px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
     html{
         font-size: 10px;
     }
 
     .card-container{
         display: grid;
-        grid-template-columns: repeat(2,auto);
+        grid-template-columns: repeat(3,auto);
         grid-gap:0.625rem;
         justify-content: center;
         align-items: center;
@@ -51,13 +51,14 @@ i.reveal {
 .game-info{
     margin: 3.125rem;
 }
-@media screen and (min-width: 701px) {
+@media screen and (min-width: 601px) {
     .card-container{
         display: grid;
         grid-template-columns: repeat(4,auto);
         grid-gap:0.625rem;
         justify-content: center;
         align-items: center;
+        /* place-items:center */
     }
 }
 

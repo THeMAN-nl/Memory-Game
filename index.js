@@ -2,6 +2,7 @@
 let memoryObject = {
   matchCount: 0,
   time: 1*60,
+
   matchedCards:[],
   cardsArray:[],
   totalCards:"",
@@ -81,17 +82,18 @@ let memoryObject = {
     {
         document.getElementById("overlay-victory").style.display = "block";
         document.getElementById('page-title').innerText = "VICTORY";
+        clearInterval(timer)
     }
   },
   //start game with prompt
   startGame: function()
   {
       memoryObject.totalCards = prompt("How many cards do you want to play with. Choose a even number")
-      if (memoryObject.totalCards%2===0)
+      if (memoryObject.totalCards % 2 === 0 && memoryObject.totalCards>0)
       {
         memoryObject.addCards(memoryObject.totalCards);
         memoryObject.shuffleCards();
-        setInterval(memoryObject.updateCountdown,1000);
+
 
 
       }else
@@ -123,6 +125,8 @@ let memoryObject = {
           memoryObject.time--
       }
   },
+
+  //end obje
 }
 // start functions necessary to start game
 memoryObject.startGame()
@@ -193,3 +197,4 @@ function temporalyDisableClicks(){
         memoryObject.matchedCards.forEach(card => card.classList.add("disable-click"))
 },2100)
 }
+let  timer=setInterval(memoryObject.updateCountdown,1000);

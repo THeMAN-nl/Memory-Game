@@ -82,65 +82,6 @@ let iconClass ;
 let firstClick = true;
 let previousCard = "empty";
 
-//1.2 reveal icon onclick en check for matching icons
-cardsArray.forEach(card => card.addEventListener('click', function(){
-    // console.log(card.firstElementChild.classList.value)
-   if (firstClick){
-        firstClick = false;
-        previousCard = card;
-        iconClass = card.firstElementChild.id;
-        // console.log(iconClass)
-        card.firstElementChild.classList.add('reveal');
-        card.classList.add('disable-click');
-   }
-   else
-   {
-
-        if (iconClass == card.firstElementChild.id)
-        {
-            console.log('match')
-            matchCount++;
-            setVictory(matchCount)
-            matchedCards.push(card,previousCard)
-            console.log(matchedCards)
-            card.firstElementChild.classList.add('reveal');
-            setTimeout(function(){
-                card.classList.add('disable-click');
-                previousCard.classList.add('disable-click');
-
-            },2000)
-
-           // console.log(card.classList)
-            iconClass ="empty";
-            firstClick=true;
-
-        }
-        else
-        {
-            card.firstElementChild.classList.add('reveal');
-            setTimeout(function(){
-                card.firstElementChild.classList.remove('reveal')
-                previousCard.firstElementChild.classList.remove('reveal')},1000)
-                // console.log(iconClass, card.firstElementChild.id, previousCard)
-                firstClick=true;
-
-                temporalyDisableClicks()
-
-
-        }
-
-   }
-})
-);
-
-// disable card clicking to prevent spamming
-function temporalyDisableClicks(){
-    cardsArray.forEach(card => card.classList.add("disable-click"))
-    setTimeout(function(){
-        cardsArray.forEach(card => card.classList.remove("disable-click"))
-        matchedCards.forEach(card => card.classList.add("disable-click"))
-},2100)
-}
 
 //shuffle cards oproepen
 shuffleCards()
