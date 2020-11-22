@@ -1,11 +1,10 @@
-let totalCards = prompt("How many cards do you want to play with. Choose a even number")
 
 let memoryObject = {
   matchCount: 0,
   time: 1*60,
   matchedCards:[],
   cardsArray:[],
-
+  totalCards:"",
   count: 0,
   iconClass:"",
   firstClick: true,
@@ -77,12 +76,33 @@ let memoryObject = {
   // rules for winning
   setVictory: function(matchCount)
   {
-    console.log(totalCards);
-    if (memoryObject.matchCount == totalCards/2)
+    console.log(memoryObject.totalCards);
+    if (memoryObject.matchCount == memoryObject.totalCards/2)
     {
         document.getElementById("overlay-victory").style.display = "block";
         document.getElementById('page-title').innerText = "VICTORY";
     }
+  },
+  //start game with prompt
+  startGame: function()
+  {
+      memoryObject.totalCards = prompt("How many cards do you want to play with. Choose a even number")
+      if (memoryObject.totalCards%2===0)
+      {
+        memoryObject.addCards(memoryObject.totalCards);
+        memoryObject.shuffleCards();
+        setInterval(memoryObject.updateCountdown,1000);
+
+
+      }else
+      {
+        memoryObject.showPrompt();
+      }
+  },
+  //ask at start of the game for amount Of Cards
+  showPrompt:function()
+  {
+    memoryObject.startGame();
   },
 
   // set timer
@@ -102,14 +122,11 @@ let memoryObject = {
 
           memoryObject.time--
       }
-  }
+  },
 }
-
-
+// start functions necessary to start game
+memoryObject.startGame()
 memoryObject.setVictory();
-memoryObject.addCards(totalCards);
-memoryObject.shuffleCards();
-setInterval(memoryObject.updateCountdown,1000);
 
 memoryObject.cardsArray.forEach(card => card.addEventListener('click',function counter(){
     memoryObject.count++;
@@ -145,7 +162,7 @@ memoryObject.cardsArray.forEach(card => card.addEventListener('click', function(
                 card.classList.add('disable-click');
                 memoryObject.previousCard.classList.add('disable-click');
 
-            },2000)
+            },2000);
 
            // console.log(card.classList)
             memoryObject.iconClass ="empty";
@@ -161,9 +178,7 @@ memoryObject.cardsArray.forEach(card => card.addEventListener('click', function(
                 // console.log(iconClass, card.firstElementChild.id, previousCard)
                 memoryObject.firstClick=true;
 
-                temporalyDisableClicks()
-
-
+                temporalyDisableClicks();
         }
 
    }
