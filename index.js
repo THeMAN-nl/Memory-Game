@@ -1,9 +1,11 @@
+let totalCards = prompt("How many cards do you want to play with. Choose a even number")
+
 let memoryObject = {
   matchCount: 0,
   time: 1*60,
   matchedCards:[],
   cardsArray:[],
-  totalCards:99,
+
   count: 0,
   iconClass:"",
   firstClick: true,
@@ -14,7 +16,7 @@ let memoryObject = {
   addCards: function(amountOfCards)
   {
    let cardContainer = document.getElementById("card-container");
-   totalCards =  amountOfCards;
+
    let lastNumber;
    console.log(cardContainer);
     for (i= 0; i<amountOfCards; i++)
@@ -75,8 +77,8 @@ let memoryObject = {
   // rules for winning
   setVictory: function(matchCount)
   {
-    console.log(memoryObject.totalCards);
-    if (memoryObject.matchCount == memoryObject.totalCards/2)
+    console.log(totalCards);
+    if (memoryObject.matchCount == totalCards/2)
     {
         document.getElementById("overlay-victory").style.display = "block";
         document.getElementById('page-title').innerText = "VICTORY";
@@ -105,7 +107,7 @@ let memoryObject = {
 
 
 memoryObject.setVictory();
-memoryObject.addCards(6);
+memoryObject.addCards(totalCards);
 memoryObject.shuffleCards();
 setInterval(memoryObject.updateCountdown,1000);
 
